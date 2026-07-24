@@ -2,32 +2,34 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+  entry:"./src/app/main.tsx",
 
-entry:"./src/main.tsx",
+  output:{
+    filename:"main.js",
+    path:path.resolve(__dirname,"../dist")
+  },
 
-output:{
- filename:"main.js",
- path:path.resolve(__dirname,"../dist")
-},
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js"],
+  },
 
-module:{
- rules:[
-   {
-    test:/\.(js|jsx|ts|tsx)$/,
-    exclude:/node_modules/,
-    use:"babel-loader"
-   },
-    {
-      test: /\.css$/,
-      use: ["style-loader", "css-loader"],
-    },
- ]
-},
+  module:{
+    rules:[
+      {
+        test:/\.(js|jsx|ts|tsx)$/,
+        exclude:/node_modules/,
+        use:"babel-loader"
+      },
+        {
+          test: /\.css$/,
+          use: ["style-loader", "css-loader"],
+        },
+    ]
+  },
 
-plugins:[
- new HtmlWebpackPlugin({
-  template:"./src/index.html"
- })
-]
-
+  plugins:[
+    new HtmlWebpackPlugin({
+      template:"./src/index.html"
+    })
+  ]
 };
