@@ -1,8 +1,18 @@
+import { Button } from "@commerce/ui";
+
 const App = () => {
   return (
+    <div>
+
     <h1>
-      Commerce Platform Shell
+      Commerce Platform
     </h1>
+
+    <Button>
+      Click Me
+    </Button>
+
+  </div>
   );
 };
 
