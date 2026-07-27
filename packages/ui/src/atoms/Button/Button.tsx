@@ -1,20 +1,21 @@
+import styles from "./Button.module.css";
+
 import type { ReactNode } from "react";
 
 interface ButtonProps {
-  children: ReactNode;
+  children:ReactNode;
   variant?: "primary" | "secondary";
-  onClick?: () => void;
+  onClick?:()=>void;
 }
 
 export function Button({
-  children,
-  variant = "primary",
-  onClick
-}: ButtonProps) {
-
+ children,
+ variant="primary",
+ onClick
+} : ButtonProps){
   return (
     <button
-      data-variant={variant}
+      className={`${styles.button} ${styles[variant]}`}
       onClick={onClick}
     >
       {children}

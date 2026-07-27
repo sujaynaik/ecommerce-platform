@@ -12,6 +12,7 @@ module.exports = {
 
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"],
+    plugins: [new TsconfigPathsPlugin()],
   },
 
   module:{
@@ -21,10 +22,31 @@ module.exports = {
         exclude:/node_modules/,
         use:"babel-loader"
       },
-        {
-          test: /\.css$/,
-          use: ["style-loader", "css-loader"],
-        },
+      {
+        test: /\.module\.css$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: false,
+                exportLocalsConvention: "asIs",
+              },
+            },
+          },
+        ],
+      },
+    // Global CSS
+    {
+      test: /\.css$/,
+      exclude: /\.module\.css$/,
+      use: [
+        "style-loader",
+        "css-loader",
+      ],
+    },
     ]
   },
 
@@ -32,6 +54,5 @@ module.exports = {
     new HtmlWebpackPlugin({
       template:"./src/index.html"
     }),
-    new TsconfigPathsPlugin()
   ]
 };
