@@ -1,24 +1,23 @@
 import styles from "./Button.module.css";
+import React from "react";
 
-import type { ReactNode } from "react";
-
-interface ButtonProps {
-  children:ReactNode;
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
   variant?: "primary" | "secondary";
-  onClick?:()=>void;
 }
 
 export function Button({
- children,
- variant="primary",
- onClick
+  variant="primary",
+  className,
+  ...rest
 } : ButtonProps){
   return (
     <button
-      className={`${styles.button} ${styles[variant]}`}
-      onClick={onClick}
-    >
-      {children}
-    </button>
+        className={[
+          styles.button,
+          styles[variant],
+          className,
+        ].filter(Boolean).join(" ")}
+        {...rest}
+    />
   );
 }

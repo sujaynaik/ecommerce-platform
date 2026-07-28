@@ -9,7 +9,8 @@
     "dev": "pnpm -r --parallel dev",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
-    "clean": "pnpm -r clean"
+    "clean": "pnpm -r clean",
+    "storybook": "pnpm --filter @commerce/ui storybook"
   },
   "keywords": [],
   "author": "",
