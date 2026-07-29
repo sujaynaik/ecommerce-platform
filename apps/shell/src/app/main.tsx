@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import "../shared/styles/styles.css"
 import App from "./App";
+import { AuthProvider } from "src/auth/AuthProvider";
 
 const root = createRoot(
  document.getElementById("root")!
@@ -11,6 +12,8 @@ const root = createRoot(
 
 root.render(
     <BrowserRouter>
-        <App />
+        <AuthProvider>
+            <App />
+        </AuthProvider>
     </BrowserRouter>
 );
