@@ -1,19 +1,5 @@
-import { Button } from "@commerce/ui";
+import { AppRouter } from "../routes/AppRouter";
 
-const App = () => {
-  return (
-    <div>
-
-    <h1>
-      Commerce Platform
-    </h1>
-
-    <Button>
-      Click Me
-    </Button>
-
-  </div>
-  );
-};
-
-export default App
+export default function App() {
+  return <AppRouter />;
+}

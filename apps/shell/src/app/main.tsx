@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 
 import "../shared/styles/styles.css"
 import App from "./App";
@@ -9,5 +10,7 @@ const root = createRoot(
 );
 
 root.render(
- <App />
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
 );
