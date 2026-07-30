@@ -1,0 +1,9 @@
+import { createApp } from "./app";
+
+const app = createApp();
+
+const PORT = 4000;
+
+app.listen(PORT, () => {
+  console.log(`REST API listening on http://localhost:${PORT}`);
+});
