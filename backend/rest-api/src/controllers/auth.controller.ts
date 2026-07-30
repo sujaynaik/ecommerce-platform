@@ -17,9 +17,9 @@ export class AuthController {
 
   me(req: Request, res: Response) {
     res.json({
-        id:"1",
+        id: req.user!.id,
         name:"Commerce Admin",
-        email:"admin@commerce.com"
+        email: req.user!.email
     });
   }
 }

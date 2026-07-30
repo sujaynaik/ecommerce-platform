@@ -3,13 +3,18 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { DashboardPage } from "@pages/Dashboard";
 import { LoginPage } from "@pages/Login";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { PublicRoute } from "./PublicRoute";
 
 export function AppRouter() {
   return (
     <Routes>
       <Route
         path="/login"
-        element={<LoginPage />}
+        element={
+        <PublicRoute>
+          <LoginPage />
+        </PublicRoute>
+        }
       />
 
       <Route

@@ -16,11 +16,15 @@ export function authenticate(
     auth.replace("Bearer ", "");
 
   try {
-
-    jwt.verify(
+    const payload = jwt.verify(
       token,
       process.env.JWT_SECRET!
     );
+
+    req.user = payload as {
+      id: string;
+      email: string;
+    };
 
     next();
 

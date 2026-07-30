@@ -1,3 +1,4 @@
+import { User } from "src/auth/types";
 import { api } from "./api";
 
 export interface LoginRequest {
@@ -24,6 +25,11 @@ export class AuthService {
         request
       );
 
+    return data;
+  }
+
+  async me() {
+    const { data } = await api.get<User>("/auth/me");
     return data;
   }
 }
