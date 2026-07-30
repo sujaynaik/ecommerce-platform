@@ -1,25 +1,39 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { useAuth } from "../../auth/useAuth";
 import { Button, FormField, Heading, Text } from "@commerce/ui";
+
 import styles from "./LoginPage.module.css";
+import { useAuth } from "../../auth/useAuth";
+import { authService } from "../../services/auth.service";
 
 export function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSubmit = (
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (
     e: React.SubmitEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
 
-    login({
-      id: "1",
-      name: "John Doe",
-      email: "john@example.com",
-    });
+    try {
+      setError("");
 
-    navigate("/dashboard");
+      const response = await authService.login({
+        email,
+        password,
+      });
+
+      login(response.user);
+
+      navigate("/dashboard");
+
+    } catch {
+      setError("Invalid email or password");
+    }
   };
 
   return (
@@ -40,18 +54,24 @@ export function LoginPage() {
           <FormField
             id="email"
             label="Email"
+            error={error}
             inputProps={{
               type: "email",
-              placeholder: "john@example.com",
+              value: email,
+              placeholder: "admin@commerce.com",
+              onChange: (e) => setEmail(e.target.value),
             }}
           />
 
           <FormField
             id="password"
             label="Password"
+            error={error}
             inputProps={{
               type: "password",
-              placeholder: "••••••••",
+              value: password,
+              placeholder: "admin123",
+              onChange: (e) => setPassword(e.target.value),
             }}
           />
 
