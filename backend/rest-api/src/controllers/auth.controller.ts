@@ -4,23 +4,22 @@ import { AuthService } from "../services/auth.service";
 const authService = new AuthService();
 
 export class AuthController {
-
-  login(req: Request, res: Response) {
-
+  async login(req: Request, res: Response) {
     try {
-
-      const response = authService.login(req.body);
-
+      const response = await authService.login(req.body);
       return res.json(response);
-
     } catch {
-
       return res.status(401).json({
         message: "Invalid email or password",
       });
-
     }
-
   }
 
+  me(req: Request, res: Response) {
+    res.json({
+        id:"1",
+        name:"Commerce Admin",
+        email:"admin@commerce.com"
+    });
+  }
 }

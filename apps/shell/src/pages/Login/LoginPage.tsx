@@ -5,6 +5,7 @@ import { Button, FormField, Heading, Text } from "@commerce/ui";
 import styles from "./LoginPage.module.css";
 import { useAuth } from "../../auth/useAuth";
 import { authService } from "../../services/auth.service";
+import { tokenService } from "src/services/token.service";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ export function LoginPage() {
         password,
       });
 
+      tokenService.set(response.token);
       login(response.user);
 
       navigate("/dashboard");

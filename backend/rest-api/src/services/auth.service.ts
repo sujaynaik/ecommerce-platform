@@ -1,3 +1,6 @@
+import bcrypt from "bcrypt";
+import { generateAccessToken } from "../utils/jwt";
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -14,20 +17,24 @@ export interface LoginResponse {
 }
 
 export class AuthService {
-  login(request: LoginRequest): LoginResponse {
+  async login(request: LoginRequest): Promise<LoginResponse> {
 
     const { email, password } = request;
 
-    if (
-      email !== "admin@commerce.com" ||
-      password !== "admin123"
-    ) {
-      throw new Error("Invalid credentials");
+    if (email !== user.email) {
+      throw new Error("Invalid email");
     }
+    const valid = await bcrypt.compare(
+      password,
+      user.password
+    );
+    if (!valid) throw new Error("Invalid password");
 
     return {
-      token: "temporary-jwt",
-
+      token: generateAccessToken({
+        id: user.id,
+        email: user.email
+      }),
       user: {
         id: "1",
         name: "Commerce Admin",
@@ -35,4 +42,11 @@ export class AuthService {
       },
     };
   }
+}
+
+const user = {
+    id: "1",
+    email: "admin@commerce.com",
+    name: "Commerce Admin",
+    password: "$2b$10$Q4/jsgMKJDSCZKIZXDQLUO6JgbzcZoLWoR6MMF9dwbBXvA4s8z3Pe"
 }
