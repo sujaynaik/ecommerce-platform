@@ -3,3 +3,5 @@ node_modules
 *storybook.log
 storybook-static
 backend/rest-api/.env
+.env.production
+.env.development

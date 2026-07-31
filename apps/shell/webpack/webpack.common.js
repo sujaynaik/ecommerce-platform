@@ -1,6 +1,19 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const webpack = require("webpack");
+const dotenv = require("dotenv");
+
+const env = dotenv.config({
+  path: path.resolve(
+    __dirname,
+    "../../../.env.development"
+  ),
+}).parsed;
+
+const envKeys = {
+  __ENV__: JSON.stringify(env),
+};
 
 module.exports = {
   entry:"./src/app/main.tsx",
@@ -54,5 +67,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template:"./src/index.html"
     }),
+    new webpack.DefinePlugin(envKeys),
   ]
 };

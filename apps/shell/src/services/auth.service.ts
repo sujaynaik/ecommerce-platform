@@ -1,5 +1,5 @@
 import { User } from "src/auth/types";
-import { api } from "./api";
+import { apiClient as api } from "./api";
 
 export interface LoginRequest {
   email: string;
