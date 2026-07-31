@@ -39,7 +39,7 @@ export function AuthProvider({ children }: Props) {
         setUser(null)
       },
     }),
-    [user]
+    [user, isLoading]
   );
 
   useEffect(() => {

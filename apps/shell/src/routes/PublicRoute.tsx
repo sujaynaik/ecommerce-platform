@@ -13,7 +13,6 @@ export function PublicRoute({
     isAuthenticated,
     isLoading,
   } = useAuth();
-
   if (isLoading) {
     return <Spinner />;
   }
