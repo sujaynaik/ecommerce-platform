@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
-import { generateAccessToken } from "../utils/jwt";
+import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
+import { log } from "console";
 
 export interface LoginRequest {
   email: string;
@@ -7,8 +8,8 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  token: string;
-
+  accessToken: string;
+  refreshToken: string;
   user: {
     id: string;
     name: string;
@@ -18,7 +19,6 @@ export interface LoginResponse {
 
 export class AuthService {
   async login(request: LoginRequest): Promise<LoginResponse> {
-
     const { email, password } = request;
 
     if (email !== user.email) {
@@ -28,15 +28,28 @@ export class AuthService {
       password,
       user.password
     );
+    
     if (!valid) throw new Error("Invalid password");
-
+    
+    const payload = {
+      id: user.id,
+      email: user.email
+    }
+    
+    let accessToken = '', refreshToken = ''
+    try {
+      console.log('token p:', payload);
+      accessToken = generateAccessToken(payload)
+      refreshToken = generateRefreshToken(payload)
+    } catch(e) {
+      console.log('token e:', e);
+      
+    }
     return {
-      token: generateAccessToken({
-        id: user.id,
-        email: user.email
-      }),
+      accessToken,
+      refreshToken,
       user: {
-        id: "1",
+        id: user.id,
         name: "Commerce Admin",
         email,
       },

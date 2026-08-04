@@ -28,7 +28,14 @@ export function LoginPage() {
         password,
       });
 
-      tokenService.set(response.token);
+      tokenService.setAccessToken(
+        response.accessToken
+      );
+
+      tokenService.setRefreshToken(
+        response.refreshToken
+      );
+      
       login(response.user);
 
       navigate("/dashboard");

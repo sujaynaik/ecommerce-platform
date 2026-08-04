@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { AuthService } from "../services/auth.service";
+import { generateAccessToken } from "../utils/jwt";
 
 const authService = new AuthService();
 
@@ -14,6 +15,12 @@ export class AuthController {
       });
     }
   }
+
+  // refreshToken(req: Request, res: Response) {
+  //   res.json({
+  //     accessToken: generateAccessToken()
+  //   })
+  // }
 
   me(req: Request, res: Response) {
     res.json({

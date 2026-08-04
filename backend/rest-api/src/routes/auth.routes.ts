@@ -10,6 +10,11 @@ router.post(
   controller.login.bind(controller)
 );
 
+// router.post(
+//   "/refresh",
+//   controller.refreshToken
+// );
+
 router.get(
     "/me",
     authenticate,

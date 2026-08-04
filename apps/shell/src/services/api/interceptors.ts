@@ -3,7 +3,7 @@ import { tokenService } from "../token.service";
 
 export function setupInterceptors() {
   apiClient.interceptors.request.use((config) => {
-    const token = tokenService.get();
+    const token = tokenService.getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

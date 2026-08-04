@@ -14,7 +14,7 @@ export function AuthProvider({ children }: Props) {
 
   const initialize = async () => {
     try {
-      if (!tokenService.get()) {
+      if (!tokenService.getAccessToken()) {
         return;
       }
       setLoading(true);

@@ -1,13 +1,34 @@
-const TOKEN_KEY = "access_token";
+const ACCESS_TOKEN_KEY = "access_token";
+const REFRESH_TOKEN_KEY = "refresh_token";
 
 export const tokenService = {
-  get() {
-    return localStorage.getItem(TOKEN_KEY);
+  getAccessToken() {
+    return localStorage.getItem(ACCESS_TOKEN_KEY);
   },
-  set(token: string) {
-    localStorage.setItem(TOKEN_KEY, token);
+  setAccessToken(token: string) {
+    localStorage.setItem(
+      ACCESS_TOKEN_KEY,
+      token
+    );
+  },
+  getRefreshToken() {
+    return localStorage.getItem(
+      REFRESH_TOKEN_KEY
+    );
+  },
+  setRefreshToken(token: string) {
+    localStorage.setItem(
+      REFRESH_TOKEN_KEY,
+      token
+    );
   },
   clear() {
-    localStorage.removeItem(TOKEN_KEY);
-  },
+    localStorage.removeItem(
+      ACCESS_TOKEN_KEY
+    );
+
+    localStorage.removeItem(
+      REFRESH_TOKEN_KEY
+    );
+  }
 };
