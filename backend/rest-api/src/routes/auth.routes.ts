@@ -10,15 +10,15 @@ router.post(
   controller.login.bind(controller)
 );
 
-// router.post(
-//   "/refresh",
-//   controller.refreshToken
-// );
+router.post(
+  "/refresh",
+  controller.refreshToken.bind(controller)
+);
 
 router.get(
     "/me",
     authenticate,
-    controller.me
+    controller.me.bind(controller)
 );
 
 export default router;

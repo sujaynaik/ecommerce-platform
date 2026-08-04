@@ -28,6 +28,13 @@ export class AuthService {
     const { data } = await api.get<User>("/auth/me");
     return data;
   }
+
+  async refresh(refreshToken: string) {
+    const response = await api.post("/auth/refresh", {
+      refreshToken
+    })
+    return response.data
+  }
 }
 
 export const authService = new AuthService();

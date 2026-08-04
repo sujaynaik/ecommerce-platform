@@ -1,10 +1,17 @@
 import bcrypt from "bcrypt";
-import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
-import { log } from "console";
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt";
 
 export interface LoginRequest {
   email: string;
   password: string;
+}
+
+export interface RefreshTokenRequest {
+  refreshToken: string;
+}
+
+export interface RefreshTokenResponse {
+  accessToken: string;
 }
 
 export interface LoginResponse {
@@ -38,12 +45,11 @@ export class AuthService {
     
     let accessToken = '', refreshToken = ''
     try {
-      console.log('token p:', payload);
+      // console.log('token payload:', payload);
       accessToken = generateAccessToken(payload)
       refreshToken = generateRefreshToken(payload)
     } catch(e) {
-      console.log('token e:', e);
-      
+      console.error('token error:', e);
     }
     return {
       accessToken,
@@ -53,6 +59,24 @@ export class AuthService {
         name: "Commerce Admin",
         email,
       },
+    };
+  }
+
+  async refreshToken(
+    request: RefreshTokenRequest
+  ): Promise<RefreshTokenResponse> {
+    const payload = verifyRefreshToken(request.refreshToken) as {
+      id: string;
+      email: string;
+    }
+
+    const accessToken = generateAccessToken({
+      id: payload.id,
+      email: payload.email,
+    });
+
+    return {
+      accessToken,
     };
   }
 }

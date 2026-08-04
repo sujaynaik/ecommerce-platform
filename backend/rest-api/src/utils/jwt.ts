@@ -11,8 +11,6 @@ const REFRESH_EXPIRES_IN = process.env.REFRESH_EXPIRES_IN || "7d";
 export function generateAccessToken(
   payload: JwtPayload
 ) {
-  console.log('generateAccessToken', process.env.JWT_ACCESS_SECRET! as Secret);
-  
   return jwt.sign(
     payload,
     process.env.JWT_ACCESS_SECRET! as Secret,
