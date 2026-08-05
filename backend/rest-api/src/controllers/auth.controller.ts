@@ -39,10 +39,6 @@ export class AuthController {
         message: "Unauthorized",
       });
     }
-
-    const token = authHeader.split(" ")[1];
-
-    console.log("Extracted token:", token);
     
     res.json({
         id: req.user!.id,
