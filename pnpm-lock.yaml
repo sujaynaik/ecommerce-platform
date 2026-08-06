@@ -292,6 +292,9 @@ importers:
 
   backend/rest-api:
     dependencies:
+      '@commerce/api':
+        specifier: workspace:*
+        version: link:../../packages/api
       bcrypt:
         specifier: ^6.0.0
         version: 6.0.0

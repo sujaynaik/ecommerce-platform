@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { AuthService } from "../services/auth.service";
-import { generateAccessToken } from "../utils/jwt";
+import { AuthService } from "./auth.service";
 
 const authService = new AuthService();
 

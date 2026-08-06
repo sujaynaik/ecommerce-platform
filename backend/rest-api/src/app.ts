@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 
-import authRoutes from "./routes/auth.routes";
+import authRoutes from "./auth/auth.routes";
+import productRoutes from "./products/product.routes";
 
 export function createApp() {
   const app = express();
@@ -10,6 +11,7 @@ export function createApp() {
   app.use(express.json());
 
   app.use("/auth", authRoutes);
+  app.use("/products", productRoutes);
 
   app.get("/health", (_, res) => {
     res.json({
