@@ -2,7 +2,7 @@ import { Button, Heading, Text } from "@commerce/ui";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/useAuth";
 import { useEffect } from "react";
-import { authService } from "src/services/auth.service";
+import { authApi } from "@commerce/api";
 
 export function DashboardPage() {
   const navigate = useNavigate();
@@ -15,25 +15,19 @@ export function DashboardPage() {
 
   useEffect(() => {
     async function api() {
-      const response = await authService.me();
+      const response = await authApi.me();
       console.log(response);
     }
-    api()
-  }, [])
+    api();
+  }, []);
 
   return (
     <>
-      <Heading level={1}>
-        Dashboard
-      </Heading>
+      <Heading level={1}>Dashboard</Heading>
 
-      <Text>
-        Welcome {user?.name}
-      </Text>
+      <Text>Welcome {user?.name}</Text>
 
-      <Button onClick={handleLogout}>
-        Logout
-      </Button>
+      <Button onClick={handleLogout}>Logout</Button>
     </>
   );
 }

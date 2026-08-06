@@ -6,24 +6,14 @@ interface PublicRouteProps {
   children: React.ReactNode;
 }
 
-export function PublicRoute({
-  children,
-}: PublicRouteProps) {
-  const {
-    isAuthenticated,
-    isLoading,
-  } = useAuth();
+export function PublicRoute({ children }: PublicRouteProps) {
+  const { isAuthenticated, isLoading } = useAuth();
   if (isLoading) {
     return <Spinner />;
   }
 
   if (isAuthenticated) {
-    return (
-      <Navigate
-        to="/dashboard"
-        replace
-      />
-    );
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;

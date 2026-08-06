@@ -3,8 +3,8 @@ import axios from "axios";
 let apiBaseUrl = "";
 
 export function configureApi(baseURL: string) {
-    apiBaseUrl = baseURL;
-    api.defaults.baseURL = baseURL;
+  apiBaseUrl = baseURL;
+  api.defaults.baseURL = baseURL;
 }
 
 export const api = axios.create();

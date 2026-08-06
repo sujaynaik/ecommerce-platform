@@ -1,5 +1,9 @@
 import bcrypt from "bcrypt";
-import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+} from "../utils/jwt";
 
 export interface LoginRequest {
   email: string;
@@ -31,25 +35,23 @@ export class AuthService {
     if (email !== user.email) {
       throw new Error("Invalid email");
     }
-    const valid = await bcrypt.compare(
-      password,
-      user.password
-    );
-    
+    const valid = await bcrypt.compare(password, user.password);
+
     if (!valid) throw new Error("Invalid password");
-    
+
     const payload = {
       id: user.id,
-      email: user.email
-    }
-    
-    let accessToken = '', refreshToken = ''
+      email: user.email,
+    };
+
+    let accessToken = "",
+      refreshToken = "";
     try {
       // console.log('token payload:', payload);
-      accessToken = generateAccessToken(payload)
-      refreshToken = generateRefreshToken(payload)
-    } catch(e) {
-      console.error('token error:', e);
+      accessToken = generateAccessToken(payload);
+      refreshToken = generateRefreshToken(payload);
+    } catch (e) {
+      console.error("token error:", e);
     }
     return {
       accessToken,
@@ -63,12 +65,12 @@ export class AuthService {
   }
 
   async refreshToken(
-    request: RefreshTokenRequest
+    request: RefreshTokenRequest,
   ): Promise<RefreshTokenResponse> {
     const payload = verifyRefreshToken(request.refreshToken) as {
       id: string;
       email: string;
-    }
+    };
 
     const accessToken = generateAccessToken({
       id: payload.id,
@@ -82,8 +84,8 @@ export class AuthService {
 }
 
 const user = {
-    id: "1",
-    email: "admin@commerce.com",
-    name: "Commerce Admin",
-    password: "$2b$10$Q4/jsgMKJDSCZKIZXDQLUO6JgbzcZoLWoR6MMF9dwbBXvA4s8z3Pe"
-}
+  id: "1",
+  email: "admin@commerce.com",
+  name: "Commerce Admin",
+  password: "$2b$10$Q4/jsgMKJDSCZKIZXDQLUO6JgbzcZoLWoR6MMF9dwbBXvA4s8z3Pe",
+};

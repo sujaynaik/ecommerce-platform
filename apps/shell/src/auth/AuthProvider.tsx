@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import type { User } from "./types";
 import { on, tokenService } from "@commerce/api";
-import { authService } from "src/services/auth.service";
+import { authApi } from "@commerce/api";
 
 interface Props {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export function AuthProvider({ children }: Props) {
         return;
       }
       setLoading(true);
-      const user = await authService.me();
+      const user = await authApi.me();
       setUser(user);
     } catch {
       tokenService.clear();
@@ -33,7 +33,8 @@ export function AuthProvider({ children }: Props) {
     setUser(null);
   }, []);
 
-  const value = useMemo(() => ({
+  const value = useMemo(
+    () => ({
       user,
       isAuthenticated: !!user,
       isLoading,
@@ -41,7 +42,7 @@ export function AuthProvider({ children }: Props) {
       login: (user: User) => setUser(user),
       logout,
     }),
-    [user, isLoading]
+    [user, isLoading],
   );
 
   useEffect(() => {
@@ -49,16 +50,12 @@ export function AuthProvider({ children }: Props) {
 
     const unsubscribe = on("unauthorized", () => {
       console.log("Event emitted: unauthorized");
-      
+
       logout();
     });
 
     return unsubscribe;
   }, []);
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

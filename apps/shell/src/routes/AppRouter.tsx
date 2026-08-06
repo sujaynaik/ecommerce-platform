@@ -11,9 +11,9 @@ export function AppRouter() {
       <Route
         path="/login"
         element={
-        <PublicRoute>
-          <LoginPage />
-        </PublicRoute>
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
         }
       />
 
@@ -26,10 +26,7 @@ export function AppRouter() {
         }
       />
 
-      <Route
-        path="*"
-        element={<Navigate to="/login" replace />}
-      />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }

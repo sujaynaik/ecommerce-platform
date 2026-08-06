@@ -7,5 +7,4 @@ export interface AuthContextValue extends AuthState {
   initialize: () => Promise<void>;
 }
 
-export const AuthContext =
-  createContext<AuthContextValue | null>(null);
+export const AuthContext = createContext<AuthContextValue | null>(null);

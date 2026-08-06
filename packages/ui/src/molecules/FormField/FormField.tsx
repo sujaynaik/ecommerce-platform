@@ -25,11 +25,7 @@ export function FormField({
         {label}
       </label>
 
-      <Input
-        id={id}
-        error={!!error}
-        {...inputProps}
-      />
+      <Input id={id} error={!!error} {...inputProps} />
 
       {error ? (
         <Text variant="caption" className={styles.error}>

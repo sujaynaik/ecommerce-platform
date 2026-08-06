@@ -23,36 +23,36 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Small: Story = {
-    args: {
-        size: "sm",
-        variant: "primary"
-    },
+  args: {
+    size: "sm",
+    variant: "primary",
+  },
 };
 
 export const Medium: Story = {
   args: {
     size: "md",
-    variant: "primary"
+    variant: "primary",
   },
 };
 
 export const Large: Story = {
   args: {
     size: "lg",
-    variant: "primary"
+    variant: "primary",
   },
 };
 
 export const Secondary: Story = {
   args: {
     size: "md",
-    variant: "secondary"
+    variant: "secondary",
   },
 };
 
 export const Neutral: Story = {
   args: {
     size: "md",
-    variant: "neutral"
+    variant: "neutral",
   },
 };

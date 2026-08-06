@@ -3,17 +3,17 @@ module.exports = {
     [
       "@babel/preset-env",
       {
-        targets: "defaults"
-      }
+        targets: "defaults",
+      },
     ],
 
     [
       "@babel/preset-react",
       {
-        runtime:"automatic"
-      }
+        runtime: "automatic",
+      },
     ],
 
-    "@babel/preset-typescript"
-  ]
+    "@babel/preset-typescript",
+  ],
 };

@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "./Heading.module.css";
 
-export interface HeadingProps
-  extends React.HTMLAttributes<HTMLHeadingElement> {
+export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
@@ -14,11 +13,7 @@ export function Heading({
 }: HeadingProps) {
   const Tag = `h${level}` as keyof React.JSX.IntrinsicElements;
 
-  const classes = [
-    styles.heading,
-    styles[`h${level}`],
-    className,
-  ]
+  const classes = [styles.heading, styles[`h${level}`], className]
     .filter(Boolean)
     .join(" ");
 

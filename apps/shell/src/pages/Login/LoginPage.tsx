@@ -4,7 +4,7 @@ import { Button, FormField, Heading, Text } from "@commerce/ui";
 
 import styles from "./LoginPage.module.css";
 import { useAuth } from "../../auth/useAuth";
-import { authService } from "../../services/auth.service";
+import { authApi } from "@commerce/api";
 import { tokenService } from "@commerce/api";
 
 export function LoginPage() {
@@ -15,31 +15,24 @@ export function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = async (
-    e: React.SubmitEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       setError("");
 
-      const response = await authService.login({
+      const response = await authApi.login({
         email,
         password,
       });
 
-      tokenService.setAccessToken(
-        response.accessToken
-      );
+      tokenService.setAccessToken(response.accessToken);
 
-      tokenService.setRefreshToken(
-        response.refreshToken
-      );
-      
+      tokenService.setRefreshToken(response.refreshToken);
+
       login(response.user);
 
       navigate("/dashboard");
-
     } catch {
       setError("Invalid email or password");
     }
@@ -56,10 +49,7 @@ export function LoginPage() {
           Sign in to continue
         </Text>
 
-        <form 
-          className={styles.form}
-          onSubmit={handleSubmit}
-        >
+        <form className={styles.form} onSubmit={handleSubmit}>
           <FormField
             id="email"
             label="Email"
@@ -84,9 +74,7 @@ export function LoginPage() {
             }}
           />
 
-          <Button type="submit">
-            Sign In
-          </Button>
+          <Button type="submit">Sign In</Button>
         </form>
       </section>
     </main>

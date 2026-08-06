@@ -5,10 +5,7 @@ const webpack = require("webpack");
 const dotenv = require("dotenv");
 
 const env = dotenv.config({
-  path: path.resolve(
-    __dirname,
-    "../../../.env.development"
-  ),
+  path: path.resolve(__dirname, "../../../.env.development"),
 }).parsed;
 
 const envKeys = {
@@ -16,11 +13,11 @@ const envKeys = {
 };
 
 module.exports = {
-  entry:"./src/app/main.tsx",
+  entry: "./src/app/main.tsx",
 
-  output:{
-    filename:"main.js",
-    path:path.resolve(__dirname,"../dist")
+  output: {
+    filename: "main.js",
+    path: path.resolve(__dirname, "../dist"),
   },
 
   resolve: {
@@ -28,12 +25,12 @@ module.exports = {
     plugins: [new TsconfigPathsPlugin()],
   },
 
-  module:{
-    rules:[
+  module: {
+    rules: [
       {
-        test:/\.(js|jsx|ts|tsx)$/,
-        exclude:/node_modules/,
-        use:"babel-loader"
+        test: /\.(js|jsx|ts|tsx)$/,
+        exclude: /node_modules/,
+        use: "babel-loader",
       },
       {
         test: /\.module\.css$/,
@@ -51,22 +48,19 @@ module.exports = {
           },
         ],
       },
-    // Global CSS
-    {
-      test: /\.css$/,
-      exclude: /\.module\.css$/,
-      use: [
-        "style-loader",
-        "css-loader",
-      ],
-    },
-    ]
+      // Global CSS
+      {
+        test: /\.css$/,
+        exclude: /\.module\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
 
-  plugins:[
+  plugins: [
     new HtmlWebpackPlugin({
-      template:"./src/index.html"
+      template: "./src/index.html",
     }),
     new webpack.DefinePlugin(envKeys),
-  ]
+  ],
 };

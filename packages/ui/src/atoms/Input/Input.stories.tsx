@@ -17,12 +17,7 @@ const meta = {
 
     type: {
       control: "select",
-      options: [
-        "text",
-        "email",
-        "password",
-        "search",
-      ],
+      options: ["text", "email", "password", "search"],
     },
   },
 } satisfies Meta<typeof Input>;

@@ -14,7 +14,7 @@ const meta = {
     },
 
     disabled: {
-      control: "boolean"
+      control: "boolean",
     },
 
     onClick: {

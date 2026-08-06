@@ -17,7 +17,7 @@ export class AuthController {
   }
 
   async refreshToken(req: Request, res: Response) {
-  try {
+    try {
       const response = await authService.refreshToken({
         refreshToken: req.body.refreshToken,
       });
@@ -39,11 +39,11 @@ export class AuthController {
         message: "Unauthorized",
       });
     }
-    
+
     res.json({
-        id: req.user!.id,
-        name:"Commerce Admin",
-        email: req.user!.email
+      id: req.user!.id,
+      name: "Commerce Admin",
+      email: req.user!.email,
     });
   }
 }

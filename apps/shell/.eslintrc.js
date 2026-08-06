@@ -1,27 +1,25 @@
 module.exports = {
-  plugins: [
-    "boundaries"
-  ],
+  plugins: ["boundaries"],
 
   settings: {
     "boundaries/elements": [
       {
         type: "app",
-        pattern: "src/app/*"
+        pattern: "src/app/*",
       },
       {
         type: "pages",
-        pattern: "src/pages/*"
+        pattern: "src/pages/*",
       },
       {
         type: "features",
-        pattern: "src/features/*"
+        pattern: "src/features/*",
       },
       {
         type: "shared",
-        pattern: "src/shared/*"
-      }
-    ]
+        pattern: "src/shared/*",
+      },
+    ],
   },
 
   rules: {
@@ -33,33 +31,22 @@ module.exports = {
         rules: [
           {
             from: "app",
-            allow: [
-              "pages",
-              "features",
-              "shared"
-            ]
+            allow: ["pages", "features", "shared"],
           },
           {
             from: "pages",
-            allow: [
-              "features",
-              "shared"
-            ]
+            allow: ["features", "shared"],
           },
           {
             from: "features",
-            allow: [
-              "shared"
-            ]
+            allow: ["shared"],
           },
           {
             from: "shared",
-            allow: [
-              "shared"
-            ]
-          }
-        ]
-      }
-    ]
-  }
+            allow: ["shared"],
+          },
+        ],
+      },
+    ],
+  },
 };
