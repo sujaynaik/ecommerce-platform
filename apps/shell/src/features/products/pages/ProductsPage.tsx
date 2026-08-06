@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
 import { Product, productsApi } from "@commerce/api";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "src/lib/react-query/query-keys";
 
 export function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: products = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: queryKeys.products.all,
+    queryFn: productsApi.getAll,
+  });
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const result = await productsApi.getAll();
-        setProducts(result);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    load();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error loading products.</p>;
   }
 
   return (
