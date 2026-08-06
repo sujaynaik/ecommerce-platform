@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import type { User } from "./types";
-import { tokenService } from "@commerce/api";
+import { on, tokenService } from "@commerce/api";
 import { authService } from "src/services/auth.service";
 
 interface Props {
@@ -26,7 +26,12 @@ export function AuthProvider({ children }: Props) {
     } finally {
       setLoading(false);
     }
-};
+  };
+
+  const logout = useCallback(() => {
+    tokenService.clear();
+    setUser(null);
+  }, []);
 
   const value = useMemo(() => ({
       user,
@@ -34,16 +39,21 @@ export function AuthProvider({ children }: Props) {
       isLoading,
       initialize,
       login: (user: User) => setUser(user),
-      logout: () => {
-        tokenService.clear();
-        setUser(null)
-      },
+      logout,
     }),
     [user, isLoading]
   );
 
   useEffect(() => {
     initialize();
+
+    const unsubscribe = on("unauthorized", () => {
+      console.log("Event emitted: unauthorized");
+      
+      logout();
+    });
+
+    return unsubscribe;
   }, []);
 
   return (

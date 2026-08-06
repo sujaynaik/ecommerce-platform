@@ -3,6 +3,7 @@ import { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { api } from "../client/api";
 import { refreshAccessToken } from "../auth/refresh";
 import { tokenService } from "../auth/token.service";
+import { emit } from "../events/auth.events";
 
 interface RetryRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -48,6 +49,7 @@ export function registerResponseInterceptor() {
             accessToken = await refreshPromise!;
         } catch (error) {
             tokenService.clear();
+            emit("unauthorized");
             return Promise.reject(error);
         }
         
