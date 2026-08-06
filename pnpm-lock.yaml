@@ -213,6 +213,9 @@ importers:
 
   apps/shell:
     dependencies:
+      '@commerce/api':
+        specifier: workspace:*
+        version: link:../../packages/api
       '@commerce/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -323,6 +326,12 @@ importers:
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
+
+  packages/api:
+    dependencies:
+      axios:
+        specifier: ^1.12.2
+        version: 1.18.1(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
 
   packages/types: {}
 

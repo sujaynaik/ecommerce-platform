@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import type { User } from "./types";
-import { tokenService } from "src/services/token.service";
+import { tokenService } from "@commerce/api";
 import { authService } from "src/services/auth.service";
 
 interface Props {

@@ -1,5 +1,5 @@
+import { api } from "@commerce/api";
 import { User } from "src/auth/types";
-import { apiClient as api } from "./api";
 
 export interface LoginRequest {
   email: string;

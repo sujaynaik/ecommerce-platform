@@ -1,12 +1,11 @@
-import { apiClient } from "./client";
-import { tokenService } from "../token.service";
+import { api, tokenService } from "@commerce/api";
 import { authService } from "../auth.service";
 
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
 
 export function setupInterceptors() {
-  apiClient.interceptors.request.use((config) => {
+  api.interceptors.request.use((config) => {
     const token = tokenService.getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -14,7 +13,7 @@ export function setupInterceptors() {
     return config;
   });
 
-  apiClient.interceptors.response.use(
+  api.interceptors.response.use(
     response => response,
     async (error) => {
       const originalRequest = error.config;
@@ -69,12 +68,12 @@ export function setupInterceptors() {
 
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
 
-        return apiClient(originalRequest);
+        return api(originalRequest);
       } catch (error) {
         tokenService.clear();
         window.location.href = "/login";
         // This prevents stale headers from being reused
-        delete apiClient.defaults.headers.common.Authorization;
+        delete api.defaults.headers.common.Authorization;
         return Promise.reject(error);
       }
     }
