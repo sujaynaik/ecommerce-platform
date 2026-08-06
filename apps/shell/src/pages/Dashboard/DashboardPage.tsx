@@ -8,11 +8,6 @@ export function DashboardPage() {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
 
-  function handleLogout() {
-    logout();
-    navigate("/login");
-  }
-
   useEffect(() => {
     async function api() {
       const response = await authApi.me();
@@ -21,11 +16,22 @@ export function DashboardPage() {
     api();
   }, []);
 
+  function handleLogout() {
+    logout();
+    navigate("/login");
+  }
+
+  function handleProducts() {
+    navigate("/products");
+  }
+
   return (
     <>
       <Heading level={1}>Dashboard</Heading>
 
       <Text>Welcome {user?.name}</Text>
+
+      <Button onClick={handleProducts}>Go to Products</Button>
 
       <Button onClick={handleLogout}>Logout</Button>
     </>

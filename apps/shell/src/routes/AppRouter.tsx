@@ -4,6 +4,7 @@ import { DashboardPage } from "@pages/Dashboard";
 import { LoginPage } from "@pages/Login";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
+import { ProductsPage } from "@features/products/pages/ProductsPage";
 
 export function AppRouter() {
   return (
@@ -25,6 +26,8 @@ export function AppRouter() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/products" element={<ProductsPage />} />
 
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
