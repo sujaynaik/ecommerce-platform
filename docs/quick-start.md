@@ -20,13 +20,13 @@ The repository uses pnpm `11.17.0`.
 
 ## 3. Start The Project
 
-The REST API uses PostgreSQL. Set `DATABASE_URL` before starting the services:
+The REST API uses PostgreSQL and validates its required configuration at startup. Copy the checked-in template, then replace the example secrets:
 
 ```bash
-export DATABASE_URL=postgresql://commerce:commerce@localhost:5432/commerce
+cp .env.example .env
 ```
 
-The API creates its tables and seed catalog on first startup. In production, provide a managed PostgreSQL URL and set `CORS_ORIGIN` to the exact allowed frontend origins.
+For a local PostgreSQL instance, the template uses `postgresql://commerce:commerce@localhost:5432/commerce`. In production, provide a managed PostgreSQL URL, strong separate JWT secrets, and exact allowed frontend origins in `CORS_ORIGINS`.
 
 Start the shell, all federated remotes, REST API, and GraphQL API together:
 

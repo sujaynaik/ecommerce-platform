@@ -1,10 +1,10 @@
 # Ecommerce Platform Current State
 
-Updated: 2026-09-09
+Updated: 2026-09-10
 
 ## Purpose
 
-This repository is an MVP ecommerce operations platform. It is organized as a micro frontend system with a shell host and independently buildable products, orders, and users remotes. The backend currently uses in-memory data so the product can be demonstrated locally without a database.
+This repository is an MVP ecommerce operations platform in the first production-hardening phase. It is organized as a micro frontend system with a shell host and independently buildable products, orders, and users remotes. Products and orders are backed by local PostgreSQL; authentication/users and GraphQL still require persistence alignment.
 
 ## Run And Check
 
@@ -14,9 +14,10 @@ Install dependencies:
 pnpm install
 ```
 
-Start the full local workspace:
+Create local configuration from the checked-in template, then start the full local workspace:
 
 ```bash
+cp .env.example .env
 pnpm dev
 ```
 
@@ -75,7 +76,7 @@ backend/graphql-api
   read-only dashboard/catalog/order/user queries
 ```
 
-The shell loads remotes from fixed development URLs configured in `apps/shell/webpack/webpack.common.js`. React, React DOM, React Router, React Query, and `@commerce/api` are configured as Module Federation singletons. The remotes can also run independently on their own ports.
+The shell loads remotes from fixed development URLs configured in `apps/shell/webpack/webpack.common.js`. React, React DOM, React Router, React Query, and `@commerce/api` are configured as Module Federation singletons. The remotes can also run independently on their own ports. REST startup validates required database, JWT, and CORS configuration before listening.
 
 ## Current Features
 
@@ -97,7 +98,7 @@ The shell loads remotes from fixed development URLs configured in `apps/shell/we
 ### Orders
 
 - Authenticated REST list, create, and status update endpoints.
-- Order items resolve against the in-memory product catalog.
+- Order items resolve against the PostgreSQL product catalog.
 - Supported statuses: `PENDING`, `PAID`, `SHIPPED`, and `CANCELLED`.
 - Federated orders remote lists orders and updates status.
 
@@ -127,7 +128,7 @@ The GraphQL service currently owns a separate in-memory snapshot from the REST s
 - `apps/users/src/App.tsx`: users remote UI.
 - `packages/api/src`: shared API client, auth, product, order, and user contracts.
 - `packages/ui/src`: production UI atoms and molecules.
-- `backend/rest-api/src`: authenticated REST resources and in-memory services.
+- `backend/rest-api/src`: authenticated REST resources, PostgreSQL repositories, and service layers.
 - `backend/graphql-api/src/server.ts`: GraphQL schema and read resolvers.
 - `scripts/check-runtime.mjs`: local endpoint and federation smoke checks.
 - `docs/verification-checklist.md`: static, runtime, and browser preflight checklist.
@@ -146,7 +147,7 @@ Webpack may still report bundle-size recommendations. Those are warnings, not bu
 
 ## Known Limitations And Next Phases
 
-1. Product, order, user, and GraphQL data are in memory and reset on process restart.
+1. Product and order data persist in PostgreSQL, while users/auth and GraphQL still use separate in-memory data and reset on process restart.
 2. REST and GraphQL currently use separate data stores; mutations made through REST are not reflected in GraphQL until a shared repository is introduced.
 3. The admin account is hard-coded and there is no persisted user management or invitation flow.
 4. The remotes use fixed localhost URLs; production deployment needs environment-driven remote URLs and a deployment manifest.
@@ -157,4 +158,4 @@ Webpack may still report bundle-size recommendations. Those are warnings, not bu
 
 ## Recommended Next Phase
 
-Introduce a shared persistence layer and repository interfaces first. Then add automated API and browser tests around authentication, product CRUD, order creation, and remote loading. After those contracts are stable, move remote URLs to environment configuration and add CI that runs `pnpm check` plus `pnpm check:runtime` against a started test stack.
+Replace startup DDL with versioned migrations and introduce shared repository interfaces first. Then add automated API and browser tests around authentication, product CRUD, order creation, and remote loading. After those contracts are stable, move remote URLs to environment configuration and add CI that runs `pnpm check` plus `pnpm check:runtime` against a started test stack.

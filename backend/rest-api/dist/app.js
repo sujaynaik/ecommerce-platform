@@ -5,10 +5,12 @@ import productRoutes from "./products/product.routes.js";
 import { authenticate } from "./auth/auth.middleware.js";
 import orderRoutes from "./orders/order.routes.js";
 import userRoutes from "./users/user.routes.js";
+import { config } from "./config.js";
+import { errorHandler, notFoundHandler } from "./middleware/error-handler.js";
 export function createApp() {
     const app = express();
     app.use(cors({
-        origin: process.env.CORS_ORIGIN?.split(",") ?? ["http://localhost:3000"],
+        origin: config.corsOrigins,
         credentials: true,
     }));
     app.use(express.json({ limit: "1mb" }));
@@ -21,5 +23,7 @@ export function createApp() {
             status: "ok",
         });
     });
+    app.use(notFoundHandler);
+    app.use(errorHandler);
     return app;
 }

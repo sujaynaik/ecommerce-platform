@@ -1,15 +1,15 @@
 import "dotenv/config";
 import { Pool } from "pg";
 
+import { config } from "../config.js";
+
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  max: Number(process.env.DATABASE_POOL_MAX ?? 10),
+  connectionString: config.databaseUrl,
+  max: config.databasePoolMax,
   idleTimeoutMillis: 30_000,
   connectionTimeoutMillis: 5_000,
   ssl:
-    process.env.NODE_ENV === "production"
-      ? { rejectUnauthorized: false }
-      : undefined,
+    config.nodeEnv === "production" ? { rejectUnauthorized: false } : undefined,
 });
 
 export async function initializeDatabase() {
