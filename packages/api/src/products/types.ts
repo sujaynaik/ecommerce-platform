@@ -12,6 +12,7 @@ export interface CreateProductRequest {
   sku: string;
   price: number;
   stock: number;
+  status?: "ACTIVE" | "INACTIVE";
 }
 
 export interface UpdateProductRequest {

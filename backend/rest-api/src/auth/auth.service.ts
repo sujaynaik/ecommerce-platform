@@ -3,7 +3,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
   verifyRefreshToken,
-} from "../utils/jwt";
+} from "../utils/jwt.js";
 
 export interface LoginRequest {
   email: string;

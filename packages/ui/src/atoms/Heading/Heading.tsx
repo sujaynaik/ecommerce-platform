@@ -11,7 +11,7 @@ export function Heading({
   children,
   ...rest
 }: HeadingProps) {
-  const Tag = `h${level}` as keyof React.JSX.IntrinsicElements;
+  const Tag = `h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
   const classes = [styles.heading, styles[`h${level}`], className]
     .filter(Boolean)

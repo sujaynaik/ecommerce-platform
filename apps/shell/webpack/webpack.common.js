@@ -13,7 +13,7 @@ const envKeys = {
 };
 
 module.exports = {
-  entry: "./src/app/main.tsx",
+  entry: "./src/app/bootstrap.tsx",
 
   output: {
     filename: "main.js",
@@ -58,6 +58,16 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.container.ModuleFederationPlugin({
+      name: "shell",
+      shared: {
+        react: { singleton: true, requiredVersion: false },
+        "react-dom": { singleton: true, requiredVersion: false },
+        "react-router-dom": { singleton: true, requiredVersion: false },
+        "@tanstack/react-query": { singleton: true, requiredVersion: false },
+        "@commerce/api": { singleton: true, requiredVersion: false },
+      },
+    }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
