@@ -3,7 +3,7 @@ import {
   Product,
   UpdateProductRequest,
 } from "@commerce/api";
-import { products } from "./products.data.js";
+import { productRepository } from "../db/product.repository.js";
 
 export class ProductServiceError extends Error {
   constructor(
@@ -16,81 +16,48 @@ export class ProductServiceError extends Error {
 
 export class ProductService {
   getAll() {
-    return products;
+    return productRepository.getAll();
   }
 
   getById(id: string) {
-    return products.find((p) => p.id === id);
+    return productRepository.getById(id);
   }
 
-  create(product: CreateProductRequest): Product {
+  async create(product: CreateProductRequest): Promise<Product> {
     this.validate(product);
-
-    if (products.some((item) => item.sku === product.sku.trim())) {
-      throw new ProductServiceError("SKU already exists", 409);
+    try {
+      return await productRepository.create(product);
+    } catch (error) {
+      this.handleConflict(error);
+      throw error;
     }
-
-    const newProduct: Product = {
-      id: crypto.randomUUID(),
-      ...product,
-      name: product.name.trim(),
-      sku: product.sku.trim(),
-      status: product.status ?? "ACTIVE",
-    };
-
-    products.push(newProduct);
-
-    return newProduct;
   }
 
-  update(id: string, changes: UpdateProductRequest): Product {
-    const product = this.getById(id);
-
-    if (!product) {
-      throw new ProductServiceError("Product not found", 404);
+  async update(id: string, changes: UpdateProductRequest): Promise<Product> {
+    const current = await productRepository.getById(id);
+    if (!current) throw new ProductServiceError("Product not found", 404);
+    this.validate({ ...current, ...changes });
+    try {
+      const product = await productRepository.update(id, changes);
+      if (!product) throw new ProductServiceError("Product not found", 404);
+      return product;
+    } catch (error) {
+      this.handleConflict(error);
+      throw error;
     }
-
-    const updated = { ...product, ...changes };
-    this.validate(updated);
-
-    if (
-      products.some((item) => item.id !== id && item.sku === updated.sku.trim())
-    ) {
-      throw new ProductServiceError("SKU already exists", 409);
-    }
-
-    Object.assign(product, {
-      ...updated,
-      name: updated.name.trim(),
-      sku: updated.sku.trim(),
-    });
-
-    return product;
   }
 
-  delete(id: string) {
-    const index = products.findIndex((product) => product.id === id);
-
-    if (index === -1) {
+  async delete(id: string) {
+    if (!(await productRepository.delete(id))) {
       throw new ProductServiceError("Product not found", 404);
     }
-
-    products.splice(index, 1);
   }
 
   private validate(product: CreateProductRequest | Product) {
-    if (!product || typeof product.name !== "string" || !product.name.trim()) {
+    if (!product?.name?.trim())
       throw new ProductServiceError("Name is required", 400);
-    }
-
-    if (
-      !product.sku ||
-      typeof product.sku !== "string" ||
-      !product.sku.trim()
-    ) {
+    if (!product?.sku?.trim())
       throw new ProductServiceError("SKU is required", 400);
-    }
-
     if (
       typeof product.price !== "number" ||
       !Number.isFinite(product.price) ||
@@ -98,20 +65,25 @@ export class ProductService {
     ) {
       throw new ProductServiceError("Price must be a non-negative number", 400);
     }
-
-    if (
-      typeof product.stock !== "number" ||
-      !Number.isInteger(product.stock) ||
-      product.stock < 0
-    ) {
+    if (!Number.isInteger(product.stock) || product.stock < 0) {
       throw new ProductServiceError(
         "Stock must be a non-negative integer",
         400,
       );
     }
-
     if (product.status && !["ACTIVE", "INACTIVE"].includes(product.status)) {
       throw new ProductServiceError("Status is invalid", 400);
+    }
+  }
+
+  private handleConflict(error: unknown): void {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "23505"
+    ) {
+      throw new ProductServiceError("SKU already exists", 409);
     }
   }
 }

@@ -1,6 +1,6 @@
 # Ecommerce Platform Quick Start
 
-Use this page as the day-to-day reference for running the local MVP.
+Use this page as the day-to-day reference for running the local platform.
 
 ## 1. Open The Repository
 
@@ -19,6 +19,14 @@ pnpm install
 The repository uses pnpm `11.17.0`.
 
 ## 3. Start The Project
+
+The REST API uses PostgreSQL. Set `DATABASE_URL` before starting the services:
+
+```bash
+export DATABASE_URL=postgresql://commerce:commerce@localhost:5432/commerce
+```
+
+The API creates its tables and seed catalog on first startup. In production, provide a managed PostgreSQL URL and set `CORS_ORIGIN` to the exact allowed frontend origins.
 
 Start the shell, all federated remotes, REST API, and GraphQL API together:
 
@@ -107,4 +115,4 @@ for port in 3000 3001 3002 3003 4000 4001; do
 
 If a previous process is using a port, stop that process or close its terminal before running `pnpm dev` again.
 
-Product, order, user, and GraphQL data are currently stored in memory and reset when the backend processes restart.
+Product and order data are persisted in PostgreSQL. User authentication remains backed by the existing application user until the users migration is completed.

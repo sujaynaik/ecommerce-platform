@@ -1,5 +1,5 @@
 import { ordersApi, Order, OrderStatus } from "@commerce/api";
-import { Button, Heading, Text } from "@commerce/ui";
+import { Badge, Heading, Select, Text } from "@commerce/ui";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import "./styles.css";
 const key = ["orders"];
@@ -39,7 +39,7 @@ export default function App() {
               </Text>
             </div>
             <strong>${order.total.toFixed(2)}</strong>
-            <select
+            <Select
               value={order.status}
               disabled={update.isPending}
               onChange={(event) =>
@@ -52,7 +52,7 @@ export default function App() {
               {["PENDING", "PAID", "SHIPPED", "CANCELLED"].map((status) => (
                 <option key={status}>{status}</option>
               ))}
-            </select>
+            </Select>
           </article>
         ))}
       </div>
